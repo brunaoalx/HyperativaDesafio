@@ -1,7 +1,7 @@
 ﻿namespace HyperativaDesafio.API.Contracts.Response
 {
-    public class CartaoCreateResponse
+    public class CartaoCreateResponse : CartaoResponseMessage
     {
-        public string message { get; set; }
+        
     }
 }

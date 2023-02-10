@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HyperativaDesafio.Domain.Entities
 {
-    internal class Cartao
+    public class Cartao
     {
         public int id { get; set; }
         public string numeroHash { get; set; }

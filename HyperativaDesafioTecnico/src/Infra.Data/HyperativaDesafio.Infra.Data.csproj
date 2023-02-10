@@ -9,6 +9,7 @@
   <ItemGroup>
     <Folder Include="Context\" />
     <Folder Include="ModelFiles\" />
+    <Folder Include="DataBase\" />
     <Folder Include="SqlSetupFiles\" />
     <Folder Include="Repositories\" />
   </ItemGroup>

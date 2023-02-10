@@ -10,7 +10,7 @@ namespace HyperativaDesafio.API.AutoMapper
         public DomainToContractMappingProfile()
         {
             CreateMap<Cartao, CartaoGetResponse>();
-;            
+             
         }
 
     }

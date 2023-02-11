@@ -5,17 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HyperativaDesafio.Domain.Interfaces.Services
+namespace HyperativaDesafio.Application.Interfaces
 {
-    public interface ICartaoService : IServiceBase<Cartao>
+    public interface ICartaoAppService :IAppServiceBase<Cartao>
     {
         string GerarHashNumeroCartao(string numeroCartao);
         string GerarMascaraNumeroCartao(string numeroCartao);
         bool ValidarNumeroCartao(string numeroCartao);
         IEnumerable<Cartao> ObterCartaoPorHashNumero(string hashNumber);
         Cartao CadastrarCartaoManual(Cartao novo);
-
-
-
     }
 }

@@ -13,6 +13,6 @@ namespace HyperativaDesafio.Domain.Entities
         public string numeroMascara { get; set; }
         public string numeracaoNoLote { get; set; } 
         public DateTime dataCadastro { get; set; }
-        public Lote lote { get; set; }
+        public int lote { get; set; }
     }
 }

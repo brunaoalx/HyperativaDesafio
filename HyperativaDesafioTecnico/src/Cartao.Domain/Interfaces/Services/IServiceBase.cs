@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HyperativaDesafio.Domain.Interfaces.Services
 {
-    internal interface IServiceBase<Tentity> where Tentity : class
+    public interface IServiceBase<Tentity> where Tentity : class
     {
         void Add(Tentity entity, string query);
         void Dispose();

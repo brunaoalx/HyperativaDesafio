@@ -1,4 +1,5 @@
-﻿using HyperativaDesafio.Domain.Entities;
+﻿using Dapper;
+using HyperativaDesafio.Domain.Entities;
 using HyperativaDesafio.Domain.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,12 @@ namespace HyperativaDesafio.Infra.Data.Repositories
             :base(connectioString)
         {
 
+        }
+
+        public Lote ObtemLotePorParametros(string tipoLote, string dataProcessamento)
+        {
+            return DbContext.Connection.Query<Lote>($"select * from lote where tipolote = '{tipoLote}' " +
+                $" and dataProcessamento = '{dataProcessamento}'").First();
         }
     }
 }

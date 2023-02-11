@@ -13,6 +13,7 @@ namespace HyperativaDesafio.Domain.Services
     {
 
         private readonly ICartaoRepository _cartaoRepository;
+        
 
         public CartaoService(ICartaoRepository cartaoRepository)
             :base(cartaoRepository)
@@ -82,6 +83,47 @@ namespace HyperativaDesafio.Domain.Services
                 return false;
 
             return true;
+
+        }
+
+        public Cartao CadastrarCartaoManual (Cartao novoCartao)
+        {
+
+            try
+            {
+                var cartaoPrepado = PreparaDadosAntesDoCadastro(novoCartao);
+                
+                var cartaoCadastrado = _cartaoRepository.CadastrarCartao(novoCartao);
+
+                return cartaoCadastrado;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
+        }
+
+        private Cartao PreparaDadosAntesDoCadastro(Cartao novoCartao)
+        {
+            novoCartao.dataCadastro = DateTime.Now;
+            Lote loteManual = _cartaoRepository.ObtemLoteParaCadastroManual();
+
+            novoCartao.lote = loteManual.id;
+            //Cadastrar dentro do lote correto
+
+            return novoCartao;
+
+        }
+
+        public IEnumerable<Cartao> ObterCartaoPorHashNumero(string hashNumber)
+        {
+            return _cartaoRepository.ObterCartaoPorHashNumero(hashNumber);
+        }
+
+        public void CadastraCartaoViaArquivo(List<Cartao> cartoesNovos)
+        {
 
         }
     }

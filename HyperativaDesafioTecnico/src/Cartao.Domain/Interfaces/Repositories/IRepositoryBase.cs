@@ -8,7 +8,7 @@ namespace HyperativaDesafio.Domain.Interfaces.Repositories
 {
     public interface IRepositoryBase<TEntity> where TEntity : class
     {
-        void Add(TEntity entity);
+        void Add(TEntity entity, string query);
         
         void Dispose();
     }

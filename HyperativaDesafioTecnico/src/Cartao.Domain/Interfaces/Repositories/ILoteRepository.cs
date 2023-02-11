@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HyperativaDesafio.Domain.Interfaces.Repositories
 {
-    internal interface ILoteRepository : IRepositoryBase<Lote>
+    public interface ILoteRepository : IRepositoryBase<Lote>
     {
     }
 }

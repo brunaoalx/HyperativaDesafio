@@ -8,7 +8,7 @@ namespace HyperativaDesafio.Domain.Interfaces.Services
 {
     internal interface IServiceBase<Tentity> where Tentity : class
     {
-        void Add(Tentity entity);
+        void Add(Tentity entity, string query);
         void Dispose();
     }
 }

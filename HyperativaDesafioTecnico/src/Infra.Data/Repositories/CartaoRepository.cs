@@ -31,20 +31,20 @@ namespace HyperativaDesafio.Infra.Data.Repositories
         {
 
             string queryInsert = 
-                $"insert into cartao (" +
-                $",numeroHash" +
-                $",numeroMascara " +
-                $",numeracaoLote)" +
-                $",Lote)" +
-                $"values(" +
-                $" '{novoCartao.numeroHash}'" +
-                $",'{novoCartao.numeroMascara}'" +
-                $",'{novoCartao.dataCadastro}'" + 
-                $",'{novoCartao.numeracaoNoLote}'" +
-                $",'{novoCartao.dataCadastro}'" +
-                $",{novoCartao.lote})";
+                "insert into cartao (" +
+                ",numeroHash" +
+                ",numeroMascara " +
+                ",numeracaoLote)" +
+                ",Lote)" +
+                "values(" +
+                " @numeroHash" +
+                ",@numeroMascara" +
+                ",@dataCadastro" + 
+                ",@numeracaoNoLote" +
+                ",@dataCadastro" +
+                ",@lote)";
 
-            DbContext.Connection.Execute(queryInsert);
+            Add(novoCartao, queryInsert);
 
             return ObterCartaoPorHashNumero(novoCartao.numeroHash).First();
         }
@@ -61,10 +61,11 @@ namespace HyperativaDesafio.Infra.Data.Repositories
 
 
             string queryInsert = "insert into lote (tipoLote,data, dataProcessamento, qtdeRegistros)" +
-                $"values ('{loteNovo.tipoLote}'" +
-                $"values ,'{loteNovo.data}'" +
-                $"values ,'{loteNovo.dataProcessamento}'" +
-                $"values ,'{loteNovo.qtdeRegistros}')"; 
+                "values (" +
+                ",@tipoLote}'" +
+                ",@data" +
+                ",@dataProcessamento" +
+                "@qtdeRegistros)"; 
 
 
             LoteRepository loteRepository = new LoteRepository(_connectioString);

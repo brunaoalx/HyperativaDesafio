@@ -31,7 +31,7 @@ namespace HyperativaDesafio.Domain.Services
 
              */
 
-            return CartaoSecurityService.GerarHashSha256(numeroCartao);
+            return SecurityService.GerarHashSha256(numeroCartao);
         }
 
         public string GerarMascaraNumeroCartao(string numeroCartao)

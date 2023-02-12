@@ -14,15 +14,17 @@ namespace HyperativaDesafio.API.Controllers
 {
 
 
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class CartaoController : ControllerBase
     {
 
         private readonly ICartaoAppService _cartaoAppService;
+        private readonly IMapper _mapper;
 
-        public CartaoController(ICartaoAppService cartaoAppService)
+        public CartaoController(IMapper mapper,ICartaoAppService cartaoAppService)
         {
+            _mapper = mapper;
             _cartaoAppService = cartaoAppService;
         }
 
@@ -35,47 +37,65 @@ namespace HyperativaDesafio.API.Controllers
         }
 
         // POST api/<CartaoController>
-        [HttpPost]
-        public CartaoCreateResponse Post([FromBody] CartaoCreateRequest cartaoNovo)
+        [HttpPost("~/api/v1/Cartao/CadastraCartaoAvulso")]        
+        public CartaoCreateResponse CadastraCartaoAvulso([FromBody] CartaoCreateRequest cartaoNovo)
         {
             //Cadastrar Cartao
 
             var retCartao = new CartaoCreateResponse();
-            
 
-            if (_cartaoAppService.ValidarNumeroCartao(cartaoNovo.numero) == false)
+            try
             {
-                retCartao.message = "Número inválido!";
-                Response.StatusCode = BadRequest().StatusCode;
-                return retCartao;
+                
+
+                if (_cartaoAppService.ValidarNumeroCartao(cartaoNovo.numero) == false)
+                {
+                    retCartao.message = "Número inválido!";
+                    Response.StatusCode = BadRequest().StatusCode;
+                    return retCartao;
+                }
+
+                var cartaoParaCadastro = _mapper.Map<CartaoCreateRequest, Cartao>(cartaoNovo);
+
+                _cartaoAppService.CadastrarCartaoManual(cartaoParaCadastro);
+
+                retCartao.message = "Cartao Cadastrado com Sucesso.";
+                Response.StatusCode = Ok().StatusCode;
+
+                
+
+            }
+            catch (Exception)
+            {
+                retCartao.message = "Erro ao cadastrar cartao.";
+                Response.StatusCode = 500;
             }
 
-            //var cartaoParaCadastro
-
             return retCartao;
+
         }
 
-        [HttpPost]
-        public CartaoCreateResponse PostFile(IFormFile fileLoadCartao)
+        [HttpPost("~/api/v1/Cartao/CadastrarCartaoViaArquivo")]
+        public CartaoCreateResponse CadastrarCartaoViaArquivo(IFormFile fileLoadCartao)
         {
             CartaoCreateResponse cartaoCreateResponse = new();
 
             try
             {
-                if (fileLoadCartao != null )
+                if (fileLoadCartao != null)
                 {
                     //await _fileService.SaveFiles(files);
                     Response.StatusCode = Ok().StatusCode;
-                    
+
                 }
                 else
                 {
-                    Response.StatusCode =  BadRequest().StatusCode;
+                    Response.StatusCode = BadRequest().StatusCode;
                 }
             }
             catch (Exception e)
             {
-                Response.StatusCode = 500 ;
+                Response.StatusCode = 500;
                 cartaoCreateResponse.message = "Ocorreu um erro ao processar o arquivo.";
             }
 

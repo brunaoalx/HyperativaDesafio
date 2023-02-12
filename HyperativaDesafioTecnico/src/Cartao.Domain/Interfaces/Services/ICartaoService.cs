@@ -1,6 +1,7 @@
 ﻿using HyperativaDesafio.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,8 +15,6 @@ namespace HyperativaDesafio.Domain.Interfaces.Services
         bool ValidarNumeroCartao(string numeroCartao);
         IEnumerable<Cartao> ObterCartaoPorHashNumero(string hashNumber);
         Cartao CadastrarCartaoManual(Cartao novo);
-
-
-
+        
     }
 }

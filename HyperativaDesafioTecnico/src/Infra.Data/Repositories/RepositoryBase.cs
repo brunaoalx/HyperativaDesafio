@@ -32,6 +32,11 @@ namespace HyperativaDesafio.Infra.Data.Repositories
             }
         }
 
+        public void Add(TEntity entity)
+        {
+           throw new NotImplementedException();
+        }
+
         public void Dispose()
         {
             DbContext.Connection?.Dispose();

@@ -62,8 +62,6 @@ namespace HyperativaDesafio.Domain.Services
                 throw;
             }
 
-
-            throw new NotImplementedException();
         }
 
         public bool ValidarNumeroCartao(string numeroCartao)
@@ -124,6 +122,13 @@ namespace HyperativaDesafio.Domain.Services
 
         public void CadastraCartaoViaArquivo(List<Cartao> cartoesNovos)
         {
+
+        }
+
+        public void Add(Cartao cartao)
+        {
+
+            CadastrarCartaoManual(cartao);
 
         }
     }

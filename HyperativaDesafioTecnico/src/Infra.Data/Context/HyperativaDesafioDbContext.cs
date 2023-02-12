@@ -11,16 +11,16 @@ namespace HyperativaDesafio.Infra.Data.Context
     public class HyperativaDesafioDbContext
     {
         public SqliteConnection Connection { get; private set; }
-        public HyperativaDesafioDbContext(string connectionString)
+        public HyperativaDesafioDbContext()
         {
-            SetConnection(connectionString);
+            SetConnection();
         }
 
-        private void SetConnection(string connectionString)
+        private void SetConnection()
         {
             try
             {
-                this.Connection = new SqliteConnection(connectionString);
+                this.Connection = new SqliteConnection(@"Data Source=..\HyperativaDesafioTecnico\src\Infra.Data\DataBase\hyperativaDesafio.db\");
             }
             catch (Exception)
             {

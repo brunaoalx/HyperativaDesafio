@@ -22,7 +22,7 @@ namespace HyperativaDesafio.API.Controllers
         private readonly ICartaoAppService _cartaoAppService;
         private readonly IMapper _mapper;
 
-        public CartaoController(IMapper mapper,ICartaoAppService cartaoAppService)
+        public CartaoController(ICartaoAppService cartaoAppService, IMapper mapper)
         {
             _mapper = mapper;
             _cartaoAppService = cartaoAppService;

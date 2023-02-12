@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Cartao.Application\HyperativaDesafio.Application.csproj" />
     <ProjectReference Include="..\Cartao.Domain\HyperativaDesafio.Domain.csproj" />
+    <ProjectReference Include="..\Infra.Data\HyperativaDesafio.Infra.Data.csproj" />
   </ItemGroup>
 
 </Project>

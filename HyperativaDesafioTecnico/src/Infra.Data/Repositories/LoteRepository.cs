@@ -12,11 +12,11 @@ namespace HyperativaDesafio.Infra.Data.Repositories
     public class LoteRepository : RepositoryBase<Lote>, ILoteRepository
     {
 
-        public LoteRepository(string connectioString)
-            :base(connectioString)
-        {
+        //public LoteRepository(string connectioString)
+        //    :base(connectioString)
+        //{
 
-        }
+        //}
 
         public Lote ObtemLotePorParametros(string tipoLote, string dataProcessamento)
         {

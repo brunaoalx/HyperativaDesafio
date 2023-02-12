@@ -14,9 +14,9 @@ namespace HyperativaDesafio.Infra.Data.Repositories
 
         protected HyperativaDesafioDbContext DbContext;
 
-        public RepositoryBase(string connectionString)
+        public RepositoryBase()
         {
-            DbContext = new HyperativaDesafioDbContext(connectionString);
+            DbContext = new HyperativaDesafioDbContext();
         }
 
         public void Add(TEntity entity, string query)

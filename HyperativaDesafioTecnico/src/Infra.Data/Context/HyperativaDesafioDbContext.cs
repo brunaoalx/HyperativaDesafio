@@ -13,20 +13,12 @@ namespace HyperativaDesafio.Infra.Data.Context
         public SqliteConnection Connection { get; private set; }
         public HyperativaDesafioDbContext()
         {
-            SetConnection();
+            string dbPath = Environment.CurrentDirectory + @"\Database.sqlite";
+
+            Connection = new SqliteConnection(@"Data Source = C:\Users\brn_a\Documents\_ESTUDOS\ASP_NET_CORE_MVC\HyperativaDesafio\HyperativaDesafioTecnico\src\Infra.Data\DataBase\hyperativaDesafio.db");
+            Connection.Open();
         }
 
-        private void SetConnection()
-        {
-            try
-            {
-                this.Connection = new SqliteConnection(@"Data Source=..\HyperativaDesafioTecnico\src\Infra.Data\DataBase\hyperativaDesafio.db\");
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
 
     }
 }

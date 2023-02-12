@@ -65,8 +65,10 @@ namespace HyperativaDesafio.Domain.Services
 
             try
             {
-                var cartaoPrepado = PreparaDadosAntesDoCadastro(novoCartao);
-                
+                Lote loteManual = _cartaoRepository.ObtemLoteParaCadastroManual();
+
+                novoCartao.lote = loteManual.id;
+
                 var cartaoCadastrado = _cartaoRepository.CadastrarCartao(novoCartao);
 
                 return cartaoCadastrado;
@@ -77,18 +79,6 @@ namespace HyperativaDesafio.Domain.Services
                 throw;
             }
             
-        }
-
-        private Cartao PreparaDadosAntesDoCadastro(Cartao novoCartao)
-        {
-            novoCartao.dataCadastro = DateTime.Now;
-            Lote loteManual = _cartaoRepository.ObtemLoteParaCadastroManual();
-
-            novoCartao.lote = loteManual.id;
-            //Cadastrar dentro do lote correto
-
-            return novoCartao;
-
         }
 
         public IEnumerable<Cartao> ObterCartaoPorHashNumero(string hashNumber)

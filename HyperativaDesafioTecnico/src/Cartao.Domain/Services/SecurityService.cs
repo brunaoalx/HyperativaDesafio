@@ -34,7 +34,7 @@ namespace HyperativaDesafio.Domain.Services
             if (String.IsNullOrEmpty(numeroCartao))
                 return false;
 
-            if (int.TryParse(numeroCartao, out _) == false)
+            if (Int64.TryParse(numeroCartao, out _) == false)
                 return false;
 
             if (numeroCartao.Length < 13 || numeroCartao.Length > 16)

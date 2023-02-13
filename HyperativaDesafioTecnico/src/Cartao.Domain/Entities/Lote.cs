@@ -12,5 +12,7 @@
         public string trailer { get; set; }
         public string dataProcessamento { get; set; }
         public string tipoLote { get; set; }
+
+        
     }
 }

@@ -32,16 +32,16 @@ namespace HyperativaDesafio.Infra.Data.Repositories
 
             string queryInsert = 
                 "insert into cartao (" +
-                ",numeroHash" +
+                "numeroHash" +
                 ",numeroMascara " +
-                ",numeracaoLote)" +
+                ",dataCadastro" +
+                ",numeracaoLote" +
                 ",Lote)" +
                 "values(" +
                 " @numeroHash" +
                 ",@numeroMascara" +
                 ",@dataCadastro" + 
                 ",@numeracaoNoLote" +
-                ",@dataCadastro" +
                 ",@lote)";
 
             Add(novoCartao, queryInsert);
@@ -62,10 +62,10 @@ namespace HyperativaDesafio.Infra.Data.Repositories
 
             string queryInsert = "insert into lote (tipoLote,data, dataProcessamento, qtdeRegistros)" +
                 "values (" +
-                ",@tipoLote}'" +
+                "@tipoLote" +
                 ",@data" +
                 ",@dataProcessamento" +
-                "@qtdeRegistros)"; 
+                ",@qtdeRegistros)"; 
 
 
             LoteRepository loteRepository = new LoteRepository();

@@ -29,11 +29,24 @@ namespace HyperativaDesafio.API.Controllers
         }
 
         // GET: api/<CartaoController>
-        [HttpGet]
-        public CartaoGetResponse Get(CartaoGetRequest cartaoConsultado)
+        [HttpGet("~/api/v1/Cartao/ConsultarNumeroCartao")]
+        public CartaoGetResponse ConsultarNumeroCartao([FromQuery] CartaoGetRequest cartaoConsultado)
         {
             //Consultar Cartão
-            return new CartaoGetResponse();
+            var cartaoParaConsulta = _mapper.Map<CartaoGetRequest, Cartao>(cartaoConsultado);
+
+            var cartaoLocalizado = _cartaoAppService.ObterCartaoPorHashNumero(cartaoParaConsulta.numeroHash).FirstOrDefault();
+
+            var dadosRetorno = new CartaoGetResponse();
+            if (cartaoLocalizado != null) { 
+                dadosRetorno.numero = cartaoLocalizado.numeroMascara + "|" + cartaoLocalizado.numeroHash.Substring(0, 15);
+                dadosRetorno.message = "Cartao localizado";
+            }
+            else
+            {
+                dadosRetorno.message = "Cartao não localizado";
+            }
+            return dadosRetorno;
         }
 
         // POST api/<CartaoController>

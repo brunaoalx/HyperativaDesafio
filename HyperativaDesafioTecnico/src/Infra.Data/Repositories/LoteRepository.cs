@@ -21,7 +21,8 @@ namespace HyperativaDesafio.Infra.Data.Repositories
         public Lote ObtemLotePorParametros(string tipoLote, string dataProcessamento)
         {
             return DbContext.Connection.Query<Lote>($"select * from lote where tipolote = '{tipoLote}' " +
-                $" and dataProcessamento = '{dataProcessamento}'").First();
+                $" and dataProcessamento = '{dataProcessamento}'").FirstOrDefault() ?? new Lote();
+                
         }
     }
 }

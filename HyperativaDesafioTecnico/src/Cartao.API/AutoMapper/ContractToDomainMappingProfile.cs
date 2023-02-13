@@ -16,6 +16,12 @@ namespace HyperativaDesafio.API.AutoMapper
                 .ForMember(x => x.dataCadastro, dtNow => dtNow.MapFrom(dtNow => DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")))
                 .ForMember(x => x.numeroMascara, nMask => nMask.MapFrom( nMask => SecurityService.MarcararNumeroCartao(nMask.numero)))
                 .ForMember(x => x.numeroHash, nHash => nHash.MapFrom(nHash => SecurityService.GerarHashSha256(nHash.numero)));
+
+            CreateMap<CartaoGetRequest, Cartao>()
+                .ForMember(x => x.dataCadastro, dtNow => dtNow.MapFrom(dtNow => DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")))
+                .ForMember(x => x.numeroMascara, nMask => nMask.MapFrom(nMask => SecurityService.MarcararNumeroCartao(nMask.numero)))
+                .ForMember(x => x.numeroHash, nHash => nHash.MapFrom(nHash => SecurityService.GerarHashSha256(nHash.numero)));
+
         }
 
     }

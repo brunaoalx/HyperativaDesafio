@@ -10,4 +10,8 @@
     <PackageReference Include="EasyEncryption" Version="1.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\HyperativaDesafio.Infra.Util\HyperativaDesafio.Infra.Util.csproj" />
+  </ItemGroup>
+
 </Project>

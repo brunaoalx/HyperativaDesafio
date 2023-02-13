@@ -15,9 +15,9 @@ namespace HyperativaDesafio.Domain.Services
         private readonly ILoteRepository _loteRepository;
 
         public LoteService(ILoteRepository loteRepository)
-            :base(loteRepository)
+            : base(loteRepository)
         {
-            _loteRepository = loteRepository; 
+            _loteRepository = loteRepository;
         }
 
     }

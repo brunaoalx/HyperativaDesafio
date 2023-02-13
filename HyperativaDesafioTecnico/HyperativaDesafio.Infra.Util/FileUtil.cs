@@ -22,7 +22,7 @@ namespace HyperativaDesafio.Infra.Util
             try
             {
                 byte[] bytesFile = ConvertFileInByteArray(file);
-                System.IO.File.WriteAllBytesAsync(fullPath, bytesFile);
+                File.WriteAllBytesAsync(fullPath, bytesFile);
 
 
             }
@@ -35,6 +35,12 @@ namespace HyperativaDesafio.Infra.Util
             return fullPath;
         }
 
+        public static bool FileExist(string fullPath)
+        {
+
+            return File.Exists(fullPath); 
+
+        }
 
     }
 }

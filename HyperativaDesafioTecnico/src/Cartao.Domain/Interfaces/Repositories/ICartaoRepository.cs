@@ -16,6 +16,8 @@ namespace HyperativaDesafio.Domain.Interfaces.Repositories
 
         Lote ObtemLoteParaCadastroManual();
 
+        Lote ObterLoteParaArquivo(string linhaDadosArquivo);
+
 
     }
 }

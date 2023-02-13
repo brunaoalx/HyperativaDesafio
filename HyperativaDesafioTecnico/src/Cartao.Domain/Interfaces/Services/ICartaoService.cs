@@ -15,6 +15,8 @@ namespace HyperativaDesafio.Domain.Interfaces.Services
         bool ValidarNumeroCartao(string numeroCartao);
         IEnumerable<Cartao> ObterCartaoPorHashNumero(string hashNumber);
         Cartao CadastrarCartaoManual(Cartao novo);
+
+        ResumoProcessamento ProcessarArquivo(string caminhoCompletoArquivo);
         
     }
 }

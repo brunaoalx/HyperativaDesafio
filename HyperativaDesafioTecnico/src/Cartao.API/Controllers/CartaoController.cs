@@ -90,16 +90,16 @@ namespace HyperativaDesafio.API.Controllers
         }
 
         [HttpPost("~/api/v1/Cartao/CadastrarCartaoViaArquivo")]
-        public CartaoCreateResponse CadastrarCartaoViaArquivo(IFormFile fileLoadCartao)
+        public CadastrarCartaoViaArquivoResponse CadastrarCartaoViaArquivo(IFormFile fileLoadCartao)
         {
-            CartaoCreateResponse cartaoCreateResponse = new();
+            CadastrarCartaoViaArquivoResponse retorno = new();
 
             try
             {
                 if (fileLoadCartao != null)
                 {
 
-                    string pathToSave = Environment.CurrentDirectory;
+                    string pathToSave = Environment.CurrentDirectory + "\\Arquivos_Carga";
 
                     string fullpath = FileUtil.SaveFile(fileLoadCartao, pathToSave);
 
@@ -108,20 +108,21 @@ namespace HyperativaDesafio.API.Controllers
 
                     
                     Response.StatusCode = Ok().StatusCode;
-
+                    
                 }
                 else
                 {
                     Response.StatusCode = BadRequest().StatusCode;
+                    retorno.resultadoProcessamento = "Arquivo Não Recebido";
                 }
             }
             catch (Exception e)
             {
                 Response.StatusCode = 500;
-                cartaoCreateResponse.message = "Ocorreu um erro ao processar o arquivo.";
+                retorno.resultadoProcessamento = "Ocorreu um erro ao processar o arquivo.";
             }
 
-            return cartaoCreateResponse;
+            return retorno;
 
         }
     }

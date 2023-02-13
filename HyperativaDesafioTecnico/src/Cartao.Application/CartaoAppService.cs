@@ -41,6 +41,11 @@ namespace HyperativaDesafio.Application
             return _cartaoService.ObterCartaoPorHashNumero(hashNumber);
         }
 
+        public ResumoProcessamento ProcessarArquivo(string caminhoCompletoArquivo)
+        {
+            return _cartaoService.ProcessarArquivo(caminhoCompletoArquivo);
+        }
+
         public bool ValidarNumeroCartao(string numeroCartao)
         {
             return _cartaoService.ValidarNumeroCartao(numeroCartao);

@@ -12,13 +12,7 @@ namespace HyperativaDesafio.Infra.Data.Repositories
     public class CartaoRepository : RepositoryBase<Cartao>, ICartaoRepository
     {
 
-        //private string _connectioString;
-
-        //public CartaoRepository(string connectioString)
-        //    : base(connectioString)
-        //{
-        //    _connectioString = connectioString;
-        //}
+        LoteRepository _loteRepository = new LoteRepository();
         public IEnumerable<Cartao> ObterCartaoPorHashNumero(string hashNumber)
         {
 
@@ -49,7 +43,6 @@ namespace HyperativaDesafio.Infra.Data.Repositories
             return ObterCartaoPorHashNumero(novoCartao.numeroHash).First();
         }
         
-
         public Lote ObtemLoteParaCadastroManual() 
         { 
             var loteNovo = new Lote();
@@ -68,12 +61,17 @@ namespace HyperativaDesafio.Infra.Data.Repositories
                 ",@qtdeRegistros)"; 
 
 
-            LoteRepository loteRepository = new LoteRepository();
+            
 
-            loteRepository.Add(loteNovo, queryInsert);
+            _loteRepository.Add(loteNovo, queryInsert);
 
-            return loteRepository.ObtemLotePorParametros(loteNovo.tipoLote, loteNovo.dataProcessamento);
+            return _loteRepository.ObtemLotePorParametros(loteNovo.tipoLote, loteNovo.dataProcessamento);
         
+        }
+
+        public Lote ObterLoteParaArquivo(string linhaDadosArquivo)
+        {
+            return _loteRepository.CriarLoteParaArquivo(linhaDadosArquivo);
         }
 
 

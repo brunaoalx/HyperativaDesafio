@@ -7,6 +7,7 @@ using System.Net;
 using HyperativaDesafio.Application.Interfaces;
 using HyperativaDesafio.Domain.Entities;
 using AutoMapper;
+using HyperativaDesafio.Infra.Util;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -97,7 +98,15 @@ namespace HyperativaDesafio.API.Controllers
             {
                 if (fileLoadCartao != null)
                 {
-                    //await _fileService.SaveFiles(files);
+
+                    string pathToSave = Environment.CurrentDirectory;
+
+                    string fullpath = FileUtil.SaveFile(fileLoadCartao, pathToSave);
+
+                    if (string.IsNullOrEmpty(fullpath))
+                        throw new Exception($"Ero ao salvar o arquivo {fileLoadCartao.FileName} no path: {pathToSave}.");
+
+                    
                     Response.StatusCode = Ok().StatusCode;
 
                 }

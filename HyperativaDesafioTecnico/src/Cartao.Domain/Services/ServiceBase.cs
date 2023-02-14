@@ -1,10 +1,5 @@
 ﻿using HyperativaDesafio.Domain.Interfaces.Repositories;
 using HyperativaDesafio.Domain.Interfaces.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HyperativaDesafio.Domain.Services
 {

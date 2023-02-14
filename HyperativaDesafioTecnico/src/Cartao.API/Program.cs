@@ -1,5 +1,3 @@
-using AutoMapper;
-using HyperativaDesafio.API.AutoMapper;
 using HyperativaDesafio.Application;
 using HyperativaDesafio.Application.Interfaces;
 using HyperativaDesafio.Domain.Interfaces.Repositories;
@@ -7,8 +5,6 @@ using HyperativaDesafio.Domain.Interfaces.Services;
 using HyperativaDesafio.Domain.Services;
 using HyperativaDesafio.Infra.Data.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.DataProtection.KeyManagement;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Serilog.Events;
@@ -63,7 +59,7 @@ builder.Services.AddAuthentication(
         x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     })
     .AddJwtBearer(
-    x => 
+    x =>
     {
         x.RequireHttpsMetadata = false;
         x.SaveToken = true;

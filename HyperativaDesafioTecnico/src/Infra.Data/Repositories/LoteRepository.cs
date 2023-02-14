@@ -1,11 +1,6 @@
 ﻿using Dapper;
 using HyperativaDesafio.Domain.Entities;
 using HyperativaDesafio.Domain.Interfaces.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HyperativaDesafio.Infra.Data.Repositories
 {
@@ -22,7 +17,7 @@ namespace HyperativaDesafio.Infra.Data.Repositories
         {
             return DbContext.Connection.Query<Lote>($"select * from lote where tipolote = '{tipoLote}' " +
                 $" and dataProcessamento = '{dataProcessamento}'").FirstOrDefault() ?? new Lote();
-                
+
         }
 
         public Lote CriarLoteParaArquivo(string linhaHeaderArquivo)

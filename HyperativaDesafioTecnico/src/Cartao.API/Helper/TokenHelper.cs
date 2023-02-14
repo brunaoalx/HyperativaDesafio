@@ -1,10 +1,9 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using static Dapper.SqlMapper;
+﻿using HyperativaDesafio.Domain.Entities;
+using HyperativaDesafio.Domain.Services;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using HyperativaDesafio.Domain.Entities;
-using HyperativaDesafio.Domain.Services;
 
 namespace HyperativaDesafio.API.Helper
 {

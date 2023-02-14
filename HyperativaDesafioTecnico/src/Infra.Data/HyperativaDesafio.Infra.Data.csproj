@@ -7,11 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ModelFiles\" />
-    <Folder Include="SqlSetupFiles\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.2" />
   </ItemGroup>

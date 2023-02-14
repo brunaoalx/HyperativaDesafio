@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System.IO;
 
 namespace HyperativaDesafio.Infra.Util
 {

@@ -1,6 +1,4 @@
-﻿using HyperativaDesafio.Domain.Entities;
-
-namespace HyperativaDesafio.API.Contracts.Response
+﻿namespace HyperativaDesafio.API.Contracts.Response
 {
     public class CadastrarCartaoViaArquivoResponse
     {

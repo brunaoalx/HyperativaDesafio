@@ -1,11 +1,6 @@
-﻿using HyperativaDesafio.Domain.Interfaces.Repositories;
+﻿using Dapper;
+using HyperativaDesafio.Domain.Interfaces.Repositories;
 using HyperativaDesafio.Infra.Data.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dapper;
 
 namespace HyperativaDesafio.Infra.Data.Repositories
 {
@@ -34,7 +29,7 @@ namespace HyperativaDesafio.Infra.Data.Repositories
 
         public void Add(TEntity entity)
         {
-           throw new NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void Dispose()

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EasyEncryption;
+﻿using EasyEncryption;
 
 namespace HyperativaDesafio.Domain.Services
 {
@@ -46,7 +41,7 @@ namespace HyperativaDesafio.Domain.Services
             return true;
         }
 
-        public static string MascararNumeroCartao (string numero)
+        public static string MascararNumeroCartao(string numero)
         {
             /*
              PCI DSS Requirement 3.3 The maximum number that can be shown is the first six and the last four digits. 

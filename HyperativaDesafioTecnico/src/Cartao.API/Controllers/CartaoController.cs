@@ -1,17 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
 using HyperativaDesafio.API.Contracts.Request;
 using HyperativaDesafio.API.Contracts.Response;
-using System.IO;
-using static System.Net.WebRequestMethods;
-using System.Net;
 using HyperativaDesafio.Application.Interfaces;
 using HyperativaDesafio.Domain.Entities;
-using AutoMapper;
-using HyperativaDesafio.Infra.Util;
-using Serilog;
 using HyperativaDesafio.Domain.Services;
-using System.Text.Json;
+using HyperativaDesafio.Infra.Util;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Serilog;
+using System.Text.Json;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -80,7 +77,7 @@ namespace HyperativaDesafio.API.Controllers
                 dadosRetorno.message = "Ocorreu um erro inesperado, tente novamente.";
                 Response.StatusCode = 500;
             }
-            
+
             return dadosRetorno;
         }
 
@@ -110,7 +107,7 @@ namespace HyperativaDesafio.API.Controllers
                     retCartao.message = "Cartao Cadastrado com Sucesso.";
 
                     Response.StatusCode = Ok().StatusCode;
-                    
+
                 }
 
                 Log.Information("CadastraCartaoAvulso - Fim - Retorno : {retorno}", JsonSerializer.Serialize(retCartao));
@@ -148,12 +145,12 @@ namespace HyperativaDesafio.API.Controllers
                     if (string.IsNullOrEmpty(fullpath))
                         throw new Exception($"Ero ao salvar o arquivo {fileLoadCartao.FileName} no path: {pathToSave}.");
 
-                    var retornoCadastro =  _cartaoAppService.ProcessarArquivo(fullpath);
+                    var retornoCadastro = _cartaoAppService.ProcessarArquivo(fullpath);
 
                     retorno = _mapper.Map<CadastrarCartaoViaArquivoResponse>(retornoCadastro);
 
                     Response.StatusCode = Ok().StatusCode;
-                    
+
                 }
                 else
                 {

@@ -1,11 +1,6 @@
 ﻿using Dapper;
 using HyperativaDesafio.Domain.Entities;
 using HyperativaDesafio.Domain.Interfaces.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HyperativaDesafio.Infra.Data.Repositories
 {
@@ -24,7 +19,7 @@ namespace HyperativaDesafio.Infra.Data.Repositories
         public Cartao CadastrarCartao(Cartao novoCartao)
         {
 
-            string queryInsert = 
+            string queryInsert =
                 "insert into cartao (" +
                 "numeroHash" +
                 ",numeroMascara " +
@@ -34,7 +29,7 @@ namespace HyperativaDesafio.Infra.Data.Repositories
                 "values(" +
                 " @numeroHash" +
                 ",@numeroMascara" +
-                ",@dataCadastro" + 
+                ",@dataCadastro" +
                 ",@numeracaoNoLote" +
                 ",@lote)";
 
@@ -42,9 +37,9 @@ namespace HyperativaDesafio.Infra.Data.Repositories
 
             return ObterCartaoPorHashNumero(novoCartao.numeroHash).First();
         }
-        
-        public Lote ObtemLoteParaCadastroManual() 
-        { 
+
+        public Lote ObtemLoteParaCadastroManual()
+        {
             var loteNovo = new Lote();
 
             loteNovo.tipoLote = "MANUAL";
@@ -58,15 +53,15 @@ namespace HyperativaDesafio.Infra.Data.Repositories
                 "@tipoLote" +
                 ",@data" +
                 ",@dataProcessamento" +
-                ",@qtdeRegistros)"; 
+                ",@qtdeRegistros)";
 
 
-            
+
 
             _loteRepository.Add(loteNovo, queryInsert);
 
             return _loteRepository.ObtemLotePorParametros(loteNovo.tipoLote, loteNovo.dataProcessamento);
-        
+
         }
 
         public Lote ObterLoteParaArquivo(string linhaDadosArquivo)

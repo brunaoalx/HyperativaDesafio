@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace HyperativaDesafio.API.Contracts.Response
+﻿namespace HyperativaDesafio.API.Contracts.Response
 {
     public class LoginResponse
     {

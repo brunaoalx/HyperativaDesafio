@@ -2,12 +2,7 @@
 using HyperativaDesafio.Domain.Interfaces.Repositories;
 using HyperativaDesafio.Domain.Interfaces.Services;
 using HyperativaDesafio.Infra.Util;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HyperativaDesafio.Domain.Services
 {

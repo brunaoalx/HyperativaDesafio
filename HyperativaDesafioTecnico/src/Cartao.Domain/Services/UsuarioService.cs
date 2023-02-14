@@ -21,7 +21,7 @@ namespace HyperativaDesafio.Domain.Services
         }
         public Usuario GetUsuario(string login, string senha)
         {
-            throw new NotImplementedException();
+            return _usuarioRepository.GetUsuario(login,senha);
         }
     }
 }

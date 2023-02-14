@@ -20,7 +20,9 @@ namespace HyperativaDesafio.Application
             _usuarioService = usuarioService;
         }
 
-
-
+        public Usuario GetUsuario(string login, string senha)
+        {
+            return _usuarioService.GetUsuario(login, senha);
+        }
     }
 }

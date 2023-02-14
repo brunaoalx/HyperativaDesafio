@@ -12,6 +12,9 @@ namespace HyperativaDesafio.Domain.Services
 
         private static string keyToHash = "YGDIWKFcerkaD9KwCVUOcnaivlNfoHawU4AnflzlRMoxiqY23XDOulMbWj8RE3N9gvFYURj4f4Npo/x8HICmHDPzfdv/S/0Zj/Jwk35PHzbF17eKPcVOhcyjbLJfm/zmGmmDMI98/BsxVuxE/lHcPmFKR5Ra7LJFqww+8YVIljY=";
 
+        public static string apiKey = "f012e78b776fd9673fd701482fefa34e1785a020"; //hyperativa em sha1;
+
+
         public static string GerarHashSha256(string valorEntrada)
         {
             /*

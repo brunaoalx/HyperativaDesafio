@@ -22,6 +22,11 @@ namespace HyperativaDesafio.API.AutoMapper
                 .ForMember(x => x.numeroMascara, nMask => nMask.MapFrom(nMask => SecurityService.MascararNumeroCartao(nMask.numero)))
                 .ForMember(x => x.numeroHash, nHash => nHash.MapFrom(nHash => SecurityService.GerarHashSha256(nHash.numero)));
 
+
+            CreateMap<LoginRequest, Usuario>()
+                .ForMember(x => x.senha, senhaHash => senhaHash.MapFrom(senhaHash => SecurityService.GerarHashSha256(senhaHash.senha)));
+
+
         }
 
     }

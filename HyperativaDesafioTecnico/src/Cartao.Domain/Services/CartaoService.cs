@@ -67,6 +67,7 @@ namespace HyperativaDesafio.Domain.Services
 
             try
             {
+
                 Lote loteManual = _cartaoRepository.ObtemLoteParaCadastroManual();
 
                 novoCartao.lote = loteManual.id;
@@ -121,7 +122,9 @@ namespace HyperativaDesafio.Domain.Services
 
                     DetalheProcessamentoArquivo detalheProcessamentoArquivo = new();
 
+                    #region Header
                     //Header
+                    //TODO: Separar tratameto do Header em um método
                     if (numLinhaAtual == 0)
                     {
                         
@@ -149,8 +152,11 @@ namespace HyperativaDesafio.Domain.Services
                         continue;
                     }
 
+                    #endregion Header
+
+                    #region Linha Vazia
                     //Linha Vazia
-                    if(linha.Trim() == "")
+                    if (linha.Trim() == "")
                     {
                         detalheProcessamentoArquivo.linha = numLinhaAtual;
                         detalheProcessamentoArquivo.retorno = "ERRO";
@@ -163,8 +169,11 @@ namespace HyperativaDesafio.Domain.Services
                         numLinhaAtual++;
                         continue;
                     }
+                    #endregion Linha Vazia
 
+                    #region Trailer
                     //Trailer
+                    //TODO: Separar tratameto do trailer em um método
                     if (linha.Substring(0, 4) == "LOTE")
                     {
 
@@ -180,7 +189,11 @@ namespace HyperativaDesafio.Domain.Services
                         continue;      
                     }
 
+                    #endregion Trailer
+
+                    #region Conteudo
                     //Conteudo
+                    //TODO: Separar tratameto do Conteudo em um método
                     detalheProcessamentoArquivo = ValidaLinhaConteudo(linha,numLinhaAtual);
                     linhaTotalLinhaConteudo++;
                     if (detalheProcessamentoArquivo.retorno == "OK") {
@@ -193,23 +206,35 @@ namespace HyperativaDesafio.Domain.Services
                         novoCartao.dataCadastro = DateTime.Now;
                         novoCartao.numeroHash = SecurityService.GerarHashSha256(linha.Substring(7, 18).Trim());
 
-                        var cartaoCadastrado = _cartaoRepository.CadastrarCartao(novoCartao);
-
-                        if (cartaoCadastrado == null) {
+                        if (_cartaoRepository.ObterCartaoPorHashNumero(novoCartao.numeroHash).Count() > 0)
+                        {
                             qtdeRegistrosErro++;
                             detalheProcessamentoArquivo.retorno = "ERRO";
-                            detalheProcessamentoArquivo.mensagem = "Erro ao cadastrar o cartao. ";
+                            detalheProcessamentoArquivo.mensagem = "Cartao ja cadastrado";
                         }
-                        else 
+                        else
                         {
-                            qtdeRegistrosOk++;
-                            detalheProcessamentoArquivo.mensagem = $"Cadastrado {cartaoCadastrado.numeroMascara}. ";
+                            var cartaoCadastrado = _cartaoRepository.CadastrarCartao(novoCartao);
+
+                            if (cartaoCadastrado == null)
+                            {
+                                qtdeRegistrosErro++;
+                                detalheProcessamentoArquivo.retorno = "ERRO";
+                                detalheProcessamentoArquivo.mensagem = "Erro ao cadastrar o cartao. ";
+                            }
+                            else
+                            {
+                                qtdeRegistrosOk++;
+                                detalheProcessamentoArquivo.mensagem = $"Cadastrado {cartaoCadastrado.numeroMascara}. ";
+                            }
                         }
                     }
                     else
                     {
                         qtdeRegistrosErro++;
                     }
+
+                    #endregion Conteudo
 
                     resumoProcessamento.detalheProcessamentoArquivo.Add(detalheProcessamentoArquivo);
 

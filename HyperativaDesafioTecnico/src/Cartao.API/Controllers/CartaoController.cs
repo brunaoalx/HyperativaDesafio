@@ -40,7 +40,7 @@ namespace HyperativaDesafio.API.Controllers
 
             try
             {
-                Log.Information("ConsultarNumeroCartao - Consultar Cartao : {cartao}", SecurityService.MascararNumeroCartao(cartaoConsultado.numero));
+                Log.Information("ConsultarNumeroCartao - Inicio - Consultar Cartao : {cartao}", SecurityService.MascararNumeroCartao(cartaoConsultado.numero));
 
                 if (SecurityService.ValidaNumeroCartao(cartaoConsultado.numero) == false)
                 {
@@ -69,7 +69,7 @@ namespace HyperativaDesafio.API.Controllers
                     }
                 }
 
-                Log.Information("ConsultarNumeroCartao - Retorno : {retorno}", JsonSerializer.Serialize(dadosRetorno));
+                Log.Information("ConsultarNumeroCartao - Fim - Retorno : {retorno}", JsonSerializer.Serialize(dadosRetorno));
             }
             catch (Exception ex)
             {
@@ -93,7 +93,7 @@ namespace HyperativaDesafio.API.Controllers
             try
             {
 
-                Log.Information("CadastraCartaoAvulso - Cadastrar Cartao : {cartao}", SecurityService.MascararNumeroCartao(cartaoNovo.numero));
+                Log.Information("CadastraCartaoAvulso - Inicio - Cadastrar Cartao : {cartao}", SecurityService.MascararNumeroCartao(cartaoNovo.numero));
 
                 if (_cartaoAppService.ValidarNumeroCartao(cartaoNovo.numero) == false)
                 {
@@ -110,7 +110,7 @@ namespace HyperativaDesafio.API.Controllers
                     
                 }
 
-                Log.Information("CadastraCartaoAvulso - Retorno : {retorno}", JsonSerializer.Serialize(retCartao));
+                Log.Information("CadastraCartaoAvulso - Fim - Retorno : {retorno}", JsonSerializer.Serialize(retCartao));
 
             }
             catch (Exception ex)
@@ -132,7 +132,7 @@ namespace HyperativaDesafio.API.Controllers
             try
             {
 
-                Log.Information("CadastrarCartaoViaArquivoResponse - Cadastrar Cartao via Arquivo: {arquivo}", JsonSerializer.Serialize(fileLoadCartao.FileName));
+                Log.Information("CadastrarCartaoViaArquivo - Inicio - Arquivo: {arquivo}", JsonSerializer.Serialize(fileLoadCartao.FileName));
 
                 if (fileLoadCartao != null)
                 {
@@ -157,12 +157,12 @@ namespace HyperativaDesafio.API.Controllers
                     retorno.resultadoProcessamento = "Arquivo Não Recebido";
                 }
 
-                Log.Information("CadastrarCartaoViaArquivoResponse - Retorno : {retorno}", JsonSerializer.Serialize(retorno));
+                Log.Information("CadastrarCartaoViaArquivo - Fim - Retorno : {retorno}", JsonSerializer.Serialize(retorno));
 
             }
             catch (Exception ex)
             {
-                Log.Error("CadastrarCartaoViaArquivoResponse - Erro : {erro}", JsonSerializer.Serialize(ex));
+                Log.Error("CadastrarCartaoViaArquivo - Erro : {erro}", JsonSerializer.Serialize(ex));
                 Response.StatusCode = 500;
                 retorno.resultadoProcessamento = "Ocorreu um erro ao processar o arquivo.";
             }

@@ -7,6 +7,8 @@ using HyperativaDesafio.Domain.Interfaces.Services;
 using HyperativaDesafio.Domain.Services;
 using HyperativaDesafio.Infra.Data.Repositories;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Serilog;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +29,15 @@ builder.Services.AddSwaggerGen();
 
 //AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+//Log
+//https://serilog.net/
+//on 2023-02-14
+builder.Host.UseSerilog((ctx, lc) => lc
+    .WriteTo.Console(LogEventLevel.Debug)
+    .WriteTo.File("logHyperativaDesafioApi.txt",
+        LogEventLevel.Warning,
+        rollingInterval: RollingInterval.Day));
 
 
 var app = builder.Build();

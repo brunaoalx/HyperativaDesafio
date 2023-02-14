@@ -8,6 +8,8 @@ using HyperativaDesafio.Application.Interfaces;
 using HyperativaDesafio.Domain.Entities;
 using AutoMapper;
 using HyperativaDesafio.Infra.Util;
+using Serilog;
+using HyperativaDesafio.Domain.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -33,20 +35,44 @@ namespace HyperativaDesafio.API.Controllers
         [HttpGet("~/api/v1/Cartao/ConsultarNumeroCartao")]
         public CartaoGetResponse ConsultarNumeroCartao([FromQuery] CartaoGetRequest cartaoConsultado)
         {
-            //Consultar Cartão
-            var cartaoParaConsulta = _mapper.Map<CartaoGetRequest, Cartao>(cartaoConsultado);
-
-            var cartaoLocalizado = _cartaoAppService.ObterCartaoPorHashNumero(cartaoParaConsulta.numeroHash).FirstOrDefault();
-
             var dadosRetorno = new CartaoGetResponse();
-            if (cartaoLocalizado != null) { 
-                dadosRetorno.numero = cartaoLocalizado.numeroMascara + "|" + cartaoLocalizado.numeroHash.Substring(0, 15);
-                dadosRetorno.message = "Cartao localizado";
-            }
-            else
+
+            try
             {
-                dadosRetorno.message = "Cartao não localizado";
+                Log.Information("ConsultarNumeroCartao - Consultar Cartao {cartao}", SecurityService.MascararNumeroCartao(cartaoConsultado.numero));
+
+                if (SecurityService.ValidaNumeroCartao(cartaoConsultado.numero) == false)
+                {
+                    dadosRetorno.numero = cartaoConsultado.numero;
+                    dadosRetorno.message = "Numero de cartão inválido";
+
+                }
+
+                //Consultar Cartão
+                var cartaoParaConsulta = _mapper.Map<CartaoGetRequest, Cartao>(cartaoConsultado);
+
+                var cartaoLocalizado = _cartaoAppService.ObterCartaoPorHashNumero(cartaoParaConsulta.numeroHash).FirstOrDefault();
+
+                if (cartaoLocalizado != null)
+                {
+                    dadosRetorno.numero = cartaoLocalizado.numeroMascara + "|" + cartaoLocalizado.numeroHash.Substring(0, 15);
+                    dadosRetorno.message = "Cartao localizado";
+                }
+                else
+                {
+                    dadosRetorno.message = "Cartao não localizado";
+                }
+
+                Log.Information("ConsultarNumeroCartao - Retorno {retorno}",dadosRetorno);
             }
+            catch (Exception ex)
+            {
+
+                Log.Error("ConsultarNumeroCartao - {erro}", ex.Message);
+                dadosRetorno.message = "Ocorreu um erro inesperado, tente novamente.";
+                Response.StatusCode = 500;
+            }
+            
             return dadosRetorno;
         }
 

@@ -188,10 +188,10 @@ namespace HyperativaDesafio.Domain.Services
                         Cartao novoCartao = new();
 
                         novoCartao.lote = loteArquivo.id;
-                        novoCartao.numeroMascara = SecurityService.MascararNumeroCartao(linha.Substring(8, 18).Trim());
+                        novoCartao.numeroMascara = SecurityService.MascararNumeroCartao(linha.Substring(7, 18).Trim());
                         novoCartao.numeracaoNoLote = linha.Substring(1, 1);
                         novoCartao.dataCadastro = DateTime.Now;
-                        novoCartao.numeroHash = SecurityService.GerarHashSha256(linha.Substring(8, 18).Trim());
+                        novoCartao.numeroHash = SecurityService.GerarHashSha256(linha.Substring(7, 18).Trim());
 
                         var cartaoCadastrado = _cartaoRepository.CadastrarCartao(novoCartao);
 
@@ -260,7 +260,7 @@ namespace HyperativaDesafio.Domain.Services
             }
 
             //Numero do cartao
-            if ( ValidarNumeroCartao(linha.Substring(8, 18).Trim()) == false)
+            if ( ValidarNumeroCartao(linha.Substring(7, 18).Trim()) == false)
             {
                 detalhe.retorno = "ERRO";
                 detalhe.mensagem += "Número do cartao inválido. ";

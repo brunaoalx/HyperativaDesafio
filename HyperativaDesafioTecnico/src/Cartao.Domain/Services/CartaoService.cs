@@ -23,6 +23,9 @@ namespace HyperativaDesafio.Domain.Services
             _cartaoRepository = cartaoRepository;
         }
 
+        //TODO Retirar os metodos que podem ser chamados diretos pela SecurityService
+
+
         public string GerarHashNumeroCartao(string numeroCartao)
         {
             /*

@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyperativaDesafio.Domain", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HyperativaDesafio.Infra.Data", "src\Infra.Data\HyperativaDesafio.Infra.Data.csproj", "{89EB1DE3-08E5-4175-AD72-D24751927D4A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HyperativaDesafio.Infra.Util", "HyperativaDesafio.Infra.Util\HyperativaDesafio.Infra.Util.csproj", "{0363DBE3-CD9D-413D-9D08-0801BB862865}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{89EB1DE3-08E5-4175-AD72-D24751927D4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89EB1DE3-08E5-4175-AD72-D24751927D4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89EB1DE3-08E5-4175-AD72-D24751927D4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0363DBE3-CD9D-413D-9D08-0801BB862865}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0363DBE3-CD9D-413D-9D08-0801BB862865}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0363DBE3-CD9D-413D-9D08-0801BB862865}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0363DBE3-CD9D-413D-9D08-0801BB862865}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +56,7 @@ Global
 		{07C57E71-FA16-430D-97CC-3950A0723898} = {CA5ACC53-FCB9-4446-B9FF-A46856F435C4}
 		{8B2A8056-B96B-4926-9A3B-6BFAD452111B} = {04E9AAFB-AE2F-4B3F-B0CF-6919B55B2428}
 		{89EB1DE3-08E5-4175-AD72-D24751927D4A} = {61955229-987C-4E55-97FC-BC5A4BC360C0}
+		{0363DBE3-CD9D-413D-9D08-0801BB862865} = {61955229-987C-4E55-97FC-BC5A4BC360C0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9F5095EC-CB35-4F66-BE0D-0C9104C06E89}

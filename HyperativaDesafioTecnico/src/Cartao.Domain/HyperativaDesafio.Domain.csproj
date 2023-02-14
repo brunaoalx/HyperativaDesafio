@@ -7,10 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\" />
-    <Folder Include="Interfaces\Services\" />
-    <Folder Include="Interfaces\Repositories\" />
-    <Folder Include="Services\" />
+    <PackageReference Include="EasyEncryption" Version="1.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\HyperativaDesafio.Infra.Util\HyperativaDesafio.Infra.Util.csproj" />
   </ItemGroup>
 
 </Project>

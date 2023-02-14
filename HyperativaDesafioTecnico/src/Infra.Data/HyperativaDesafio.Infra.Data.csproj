@@ -7,10 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Context\" />
-    <Folder Include="ModelFiles\" />
-    <Folder Include="SqlSetupFiles\" />
-    <Folder Include="Repositories\" />
+    <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cartao.Domain\HyperativaDesafio.Domain.csproj" />
   </ItemGroup>
 
 </Project>

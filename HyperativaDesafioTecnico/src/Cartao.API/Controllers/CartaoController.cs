@@ -11,6 +11,7 @@ using HyperativaDesafio.Infra.Util;
 using Serilog;
 using HyperativaDesafio.Domain.Services;
 using System.Text.Json;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -34,6 +35,7 @@ namespace HyperativaDesafio.API.Controllers
 
         // GET: api/<CartaoController>
         [HttpGet("~/api/v1/Cartao/ConsultarNumeroCartao")]
+        [Authorize]
         public CartaoGetResponse ConsultarNumeroCartao([FromQuery] CartaoGetRequest cartaoConsultado)
         {
             var dadosRetorno = new CartaoGetResponse();
@@ -83,7 +85,8 @@ namespace HyperativaDesafio.API.Controllers
         }
 
         // POST api/<CartaoController>
-        [HttpPost("~/api/v1/Cartao/CadastraCartaoAvulso")]        
+        [HttpPost("~/api/v1/Cartao/CadastraCartaoAvulso")]
+        [Authorize]
         public CartaoCreateResponse CadastraCartaoAvulso([FromBody] CartaoCreateRequest cartaoNovo)
         {
             //Cadastrar Cartao
@@ -125,6 +128,7 @@ namespace HyperativaDesafio.API.Controllers
         }
 
         [HttpPost("~/api/v1/Cartao/CadastrarCartaoViaArquivo")]
+        [Authorize]
         public CadastrarCartaoViaArquivoResponse CadastrarCartaoViaArquivo(IFormFile fileLoadCartao)
         {
             CadastrarCartaoViaArquivoResponse retorno = new();

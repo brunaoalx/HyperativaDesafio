@@ -5,6 +5,7 @@ using HyperativaDesafio.API.Helper;
 using HyperativaDesafio.Application.Interfaces;
 using HyperativaDesafio.Domain.Entities;
 using HyperativaDesafio.Domain.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -26,8 +27,8 @@ namespace HyperativaDesafio.API.Controllers
             _usuarioAppService = usuarioAppService;
         }
 
-        [HttpPost("~/api/v1/Cartao/Login")]
-
+        [HttpPost("~/api/v1/Login/Login")]
+        [AllowAnonymous]
         public LoginResponse Login(LoginRequest loginRequest)
         {
 

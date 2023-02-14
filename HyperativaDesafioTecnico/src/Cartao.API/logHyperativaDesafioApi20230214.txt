@@ -1,0 +1,10 @@
+2023-02-14 09:13:54.445 -03:00 [INF] Now listening on: http://localhost:5238
+2023-02-14 09:13:55.391 -03:00 [INF] Application started. Press Ctrl+C to shut down.
+2023-02-14 09:13:55.406 -03:00 [INF] Hosting environment: Development
+2023-02-14 09:13:55.641 -03:00 [INF] Content root path: C:\Users\brn_a\Documents\_ESTUDOS\ASP_NET_CORE_MVC\HyperativaDesafio\HyperativaDesafioTecnico\src\Cartao.API\
+2023-02-14 09:13:56.910 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5238/swagger/index.html - -
+2023-02-14 09:13:57.871 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5238/swagger/index.html - - - 200 - text/html;charset=utf-8 966.7515ms
+2023-02-14 09:13:57.975 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5238/_framework/aspnetcore-browser-refresh.js - -
+2023-02-14 09:13:58.002 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5238/_framework/aspnetcore-browser-refresh.js - - - 200 12012 application/javascript;+charset=utf-8 26.9474ms
+2023-02-14 09:13:58.057 -03:00 [INF] Request starting HTTP/1.1 GET http://localhost:5238/_vs/browserLink - -
+2023-02-14 09:13:58.257 -03:00 [INF] Request finished HTTP/1.1 GET http://localhost:5238/_vs/browserLink - - - 200 - text/javascript;+charset=UTF-8 200.3211ms

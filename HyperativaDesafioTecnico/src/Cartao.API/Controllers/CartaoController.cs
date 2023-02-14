@@ -10,6 +10,7 @@ using AutoMapper;
 using HyperativaDesafio.Infra.Util;
 using Serilog;
 using HyperativaDesafio.Domain.Services;
+using System.Text.Json;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -39,36 +40,41 @@ namespace HyperativaDesafio.API.Controllers
 
             try
             {
-                Log.Information("ConsultarNumeroCartao - Consultar Cartao {cartao}", SecurityService.MascararNumeroCartao(cartaoConsultado.numero));
+                Log.Information("ConsultarNumeroCartao - Consultar Cartao : {cartao}", SecurityService.MascararNumeroCartao(cartaoConsultado.numero));
 
                 if (SecurityService.ValidaNumeroCartao(cartaoConsultado.numero) == false)
                 {
                     dadosRetorno.numero = cartaoConsultado.numero;
                     dadosRetorno.message = "Numero de cartão inválido";
-
-                }
-
-                //Consultar Cartão
-                var cartaoParaConsulta = _mapper.Map<CartaoGetRequest, Cartao>(cartaoConsultado);
-
-                var cartaoLocalizado = _cartaoAppService.ObterCartaoPorHashNumero(cartaoParaConsulta.numeroHash).FirstOrDefault();
-
-                if (cartaoLocalizado != null)
-                {
-                    dadosRetorno.numero = cartaoLocalizado.numeroMascara + "|" + cartaoLocalizado.numeroHash.Substring(0, 15);
-                    dadosRetorno.message = "Cartao localizado";
+                    Response.StatusCode = BadRequest().StatusCode;
                 }
                 else
                 {
-                    dadosRetorno.message = "Cartao não localizado";
+
+                    //Consultar Cartão
+                    var cartaoParaConsulta = _mapper.Map<CartaoGetRequest, Cartao>(cartaoConsultado);
+
+                    var cartaoLocalizado = _cartaoAppService.ObterCartaoPorHashNumero(cartaoParaConsulta.numeroHash).FirstOrDefault();
+
+                    if (cartaoLocalizado != null)
+                    {
+                        dadosRetorno.numero = cartaoLocalizado.numeroMascara + "|" + cartaoLocalizado.numeroHash.Substring(0, 15);
+                        dadosRetorno.message = "Cartao localizado";
+                        Response.StatusCode = Ok().StatusCode;
+                    }
+                    else
+                    {
+                        dadosRetorno.message = "Cartao não localizado";
+                        Response.StatusCode = NotFound().StatusCode;
+                    }
                 }
 
-                Log.Information("ConsultarNumeroCartao - Retorno {retorno}",dadosRetorno);
+                Log.Information("ConsultarNumeroCartao - Retorno : {retorno}", JsonSerializer.Serialize(dadosRetorno));
             }
             catch (Exception ex)
             {
 
-                Log.Error("ConsultarNumeroCartao - {erro}", ex.Message);
+                Log.Error("ConsultarNumeroCartao - Erro : {erro}", JsonSerializer.Serialize(ex));
                 dadosRetorno.message = "Ocorreu um erro inesperado, tente novamente.";
                 Response.StatusCode = 500;
             }
@@ -86,27 +92,30 @@ namespace HyperativaDesafio.API.Controllers
 
             try
             {
-                
+
+                Log.Information("CadastraCartaoAvulso - Cadastrar Cartao : {cartao}", SecurityService.MascararNumeroCartao(cartaoNovo.numero));
 
                 if (_cartaoAppService.ValidarNumeroCartao(cartaoNovo.numero) == false)
                 {
                     retCartao.message = "Número inválido!";
                     Response.StatusCode = BadRequest().StatusCode;
-                    return retCartao;
+                }
+                else
+                {
+                    var cartaoParaCadastro = _mapper.Map<CartaoCreateRequest, Cartao>(cartaoNovo);
+                    _cartaoAppService.CadastrarCartaoManual(cartaoParaCadastro);
+                    retCartao.message = "Cartao Cadastrado com Sucesso.";
+
+                    Response.StatusCode = Ok().StatusCode;
+                    
                 }
 
-                var cartaoParaCadastro = _mapper.Map<CartaoCreateRequest, Cartao>(cartaoNovo);
-
-                _cartaoAppService.CadastrarCartaoManual(cartaoParaCadastro);
-
-                retCartao.message = "Cartao Cadastrado com Sucesso.";
-                Response.StatusCode = Ok().StatusCode;
-
-                
+                Log.Information("CadastraCartaoAvulso - Retorno : {retorno}", JsonSerializer.Serialize(retCartao));
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Log.Error("CadastraCartaoAvulso - Erro : {erro}", JsonSerializer.Serialize(ex));
                 retCartao.message = "Erro ao cadastrar cartao.";
                 Response.StatusCode = 500;
             }
@@ -122,6 +131,9 @@ namespace HyperativaDesafio.API.Controllers
 
             try
             {
+
+                Log.Information("CadastrarCartaoViaArquivoResponse - Cadastrar Cartao via Arquivo: {arquivo}", JsonSerializer.Serialize(fileLoadCartao.FileName));
+
                 if (fileLoadCartao != null)
                 {
 
@@ -144,9 +156,13 @@ namespace HyperativaDesafio.API.Controllers
                     Response.StatusCode = BadRequest().StatusCode;
                     retorno.resultadoProcessamento = "Arquivo Não Recebido";
                 }
+
+                Log.Information("CadastrarCartaoViaArquivoResponse - Retorno : {retorno}", JsonSerializer.Serialize(retorno));
+
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
+                Log.Error("CadastrarCartaoViaArquivoResponse - Erro : {erro}", JsonSerializer.Serialize(ex));
                 Response.StatusCode = 500;
                 retorno.resultadoProcessamento = "Ocorreu um erro ao processar o arquivo.";
             }

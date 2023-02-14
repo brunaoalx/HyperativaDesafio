@@ -35,8 +35,8 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 //on 2023-02-14
 builder.Host.UseSerilog((ctx, lc) => lc
     .WriteTo.Console(LogEventLevel.Debug)
-    .WriteTo.File("logHyperativaDesafioApi.txt",
-        LogEventLevel.Warning,
+    .WriteTo.File("log\\HyperativaDesafioApi_.txt",
+        LogEventLevel.Information,
         rollingInterval: RollingInterval.Day));
 
 

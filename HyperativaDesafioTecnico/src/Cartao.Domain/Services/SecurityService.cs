@@ -43,7 +43,7 @@ namespace HyperativaDesafio.Domain.Services
             return true;
         }
 
-        public static string MarcararNumeroCartao (string numero)
+        public static string MascararNumeroCartao (string numero)
         {
             /*
              PCI DSS Requirement 3.3 The maximum number that can be shown is the first six and the last four digits. 

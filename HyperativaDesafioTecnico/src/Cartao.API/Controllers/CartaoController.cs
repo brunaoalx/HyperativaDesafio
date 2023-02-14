@@ -106,7 +106,10 @@ namespace HyperativaDesafio.API.Controllers
                     if (string.IsNullOrEmpty(fullpath))
                         throw new Exception($"Ero ao salvar o arquivo {fileLoadCartao.FileName} no path: {pathToSave}.");
 
-                    
+                    var retornoCadastro =  _cartaoAppService.ProcessarArquivo(fullpath);
+
+                    retorno = _mapper.Map<CadastrarCartaoViaArquivoResponse>(retornoCadastro);
+
                     Response.StatusCode = Ok().StatusCode;
                     
                 }

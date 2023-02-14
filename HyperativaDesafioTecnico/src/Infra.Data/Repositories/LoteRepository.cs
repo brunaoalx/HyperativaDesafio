@@ -36,11 +36,15 @@ namespace HyperativaDesafio.Infra.Data.Repositories
             loteNovo.data = linhaHeaderArquivo.Substring(29, 8);
             loteNovo.dataProcessamento = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
             loteNovo.qtdeRegistros = linhaHeaderArquivo.Substring(45, 6);
+            loteNovo.header = linhaHeaderArquivo;
+            loteNovo.lote = linhaHeaderArquivo.Substring(37, 8);
 
 
-            string queryInsert = "insert into lote (nome,tipoLote,data, dataProcessamento, qtdeRegistros)" +
+            string queryInsert = "insert into lote (nome,header,lote,tipoLote,data, dataProcessamento, qtdeRegistros)" +
                 "values (" +
                 "@nome" +
+                ",@header" +
+                ",@lote" +
                 ",@tipoLote" +
                 ",@data" +
                 ",@dataProcessamento" +

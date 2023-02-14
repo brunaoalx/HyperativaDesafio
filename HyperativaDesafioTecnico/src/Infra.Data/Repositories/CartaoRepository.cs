@@ -48,7 +48,7 @@ namespace HyperativaDesafio.Infra.Data.Repositories
             var loteNovo = new Lote();
 
             loteNovo.tipoLote = "MANUAL";
-            loteNovo.data = DateTime.Now.ToString("yyyy-MM-dd");
+            loteNovo.data = DateTime.Now.ToString("yyyyMMdd");
             loteNovo.dataProcessamento = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
             loteNovo.qtdeRegistros = "1";
 

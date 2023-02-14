@@ -4,6 +4,7 @@ using HyperativaDesafio.Domain.Interfaces.Services;
 using HyperativaDesafio.Infra.Util;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,7 +44,7 @@ namespace HyperativaDesafio.Domain.Services
                 if (ValidarNumeroCartao(numeroCartao) == false)
                     throw new Exception("Numero inválido para Cartao de Credito.");
 
-                return SecurityService.MarcararNumeroCartao(numeroCartao);
+                return SecurityService.MascararNumeroCartao(numeroCartao);
 
             }
             catch (Exception)
@@ -106,12 +107,14 @@ namespace HyperativaDesafio.Domain.Services
                     resumoProcessamento.resultadoProcessamento = "Arquivo Não Localizado.";
                     throw new Exception($"Arquivo não localizado no caminho: {caminhoCompletoArquivo}.");
                 }
-
+                
                 string[] linhas = File.ReadAllLines(caminhoCompletoArquivo);
                 int qtdeRegistrosOk = 0;
                 int qtdeRegistrosErro = 0;
                 int numLinhaAtual = 0;
+                int linhaTotalLinhaConteudo = 0;
 
+                resumoProcessamento.qtdeTotalRegistros = linhas.Count();
 
                 foreach (var linha in linhas)
                 {
@@ -123,8 +126,7 @@ namespace HyperativaDesafio.Domain.Services
                     {
                         
                         detalheProcessamentoArquivo = ValidarHeader(linha);
-                        resumoProcessamento.detalheProcessamentoArquivo.Add(detalheProcessamentoArquivo);
-
+                        
                         if (detalheProcessamentoArquivo.retorno == "OK") 
                         {
                             loteArquivo = _cartaoRepository.ObterLoteParaArquivo(linha);
@@ -141,6 +143,24 @@ namespace HyperativaDesafio.Domain.Services
                             throw new Exception("Erro ao localizar as informações do Lote");
                         }
 
+                        resumoProcessamento.detalheProcessamentoArquivo.Add(detalheProcessamentoArquivo);
+
+                        numLinhaAtual++;
+                        continue;
+                    }
+
+                    //Linha Vazia
+                    if(linha.Trim() == "")
+                    {
+                        detalheProcessamentoArquivo.linha = numLinhaAtual;
+                        detalheProcessamentoArquivo.retorno = "ERRO";
+                        detalheProcessamentoArquivo.mensagem = "Linha vazia";
+                        resumoProcessamento.detalheProcessamentoArquivo.Add(detalheProcessamentoArquivo);
+                        numLinhaAtual++;
+                        qtdeRegistrosErro++;
+                        resumoProcessamento.qtdeRegistrosErro = qtdeRegistrosErro;
+                        
+                        numLinhaAtual++;
                         continue;
                     }
 
@@ -150,40 +170,68 @@ namespace HyperativaDesafio.Domain.Services
 
                         detalheProcessamentoArquivo = ValidarTrailer(linha,numLinhaAtual);
                         resumoProcessamento.detalheProcessamentoArquivo.Add(detalheProcessamentoArquivo);
+                        
                         if (detalheProcessamentoArquivo.retorno == "OK") { qtdeRegistrosOk++; } else { qtdeRegistrosErro++; }
-                        break;
+
+                        resumoProcessamento.qtdeRegistrosErro = qtdeRegistrosErro;
+                        resumoProcessamento.qtdeRegistrosOk = qtdeRegistrosOk;
+
+                        numLinhaAtual++;
+                        continue;      
                     }
 
                     //Conteudo
                     detalheProcessamentoArquivo = ValidaLinhaConteudo(linha,numLinhaAtual);
-
+                    linhaTotalLinhaConteudo++;
                     if (detalheProcessamentoArquivo.retorno == "OK") {
 
                         Cartao novoCartao = new();
 
                         novoCartao.lote = loteArquivo.id;
-                        novoCartao.numeroMascara = SecurityService.MarcararNumeroCartao(linha.Substring(8, 18));
+                        novoCartao.numeroMascara = SecurityService.MascararNumeroCartao(linha.Substring(8, 18).Trim());
                         novoCartao.numeracaoNoLote = linha.Substring(1, 1);
                         novoCartao.dataCadastro = DateTime.Now;
-                        novoCartao.numeroHash = SecurityService.GerarHashSha256(linha.Substring(8, 18));
+                        novoCartao.numeroHash = SecurityService.GerarHashSha256(linha.Substring(8, 18).Trim());
 
                         var cartaoCadastrado = _cartaoRepository.CadastrarCartao(novoCartao);
 
                         if (cartaoCadastrado == null) {
+                            qtdeRegistrosErro++;
                             detalheProcessamentoArquivo.retorno = "ERRO";
-                            detalheProcessamentoArquivo.mensagem += "Erro ao cadastrar o cartao";
+                            detalheProcessamentoArquivo.mensagem = "Erro ao cadastrar o cartao. ";
                         }
                         else 
                         {
-                            detalheProcessamentoArquivo.mensagem += $"Cadastrado {cartaoCadastrado.numeroMascara}.";
+                            qtdeRegistrosOk++;
+                            detalheProcessamentoArquivo.mensagem = $"Cadastrado {cartaoCadastrado.numeroMascara}. ";
                         }
                     }
+                    else
+                    {
+                        qtdeRegistrosErro++;
+                    }
+
+                    resumoProcessamento.detalheProcessamentoArquivo.Add(detalheProcessamentoArquivo);
+
+                    resumoProcessamento.qtdeRegistrosErro = qtdeRegistrosErro;
+                    resumoProcessamento.qtdeRegistrosOk = qtdeRegistrosOk;
+                    
+                    numLinhaAtual++;
                 }
 
             }
             catch (Exception ex)
             {
                 resumoProcessamento.resultadoProcessamento = ex.Message;
+            }
+
+            if(resumoProcessamento.qtdeRegistrosErro > 0)
+            {
+                resumoProcessamento.resultadoProcessamento = "Processamento contém Erros.";
+            }
+            else
+            {
+                resumoProcessamento.resultadoProcessamento = "Processado com Sucesso";
             }
 
             return resumoProcessamento;
@@ -194,14 +242,12 @@ namespace HyperativaDesafio.Domain.Services
         {
             DetalheProcessamentoArquivo detalhe = new();
             detalhe.linha = numLinha;
-            detalhe.retorno = "OK";
-            detalhe.mensagem = "OK";
 
             //Layout linha
             if(linha.Length != 51)
             {
                 detalhe.retorno = "ERRO";
-                detalhe.mensagem = $"Linha fora do layout, esperado [51] recebido {linha.Length}";
+                detalhe.mensagem = $"Linha fora do layout, esperado [51] recebido {linha.Length}. ";
 
             }
 
@@ -209,17 +255,21 @@ namespace HyperativaDesafio.Domain.Services
             if (linha.Substring(0, 1).ToUpper() != "C")
             {
                 detalhe.retorno = "ERRO";
-                detalhe.mensagem = $"[01-01] esperado [C] recebido {linha.Substring(0, 1)}";
+                detalhe.mensagem += $"[01-01] esperado [C] recebido {linha.Substring(0, 1)}. ";
 
             }
 
             //Numero do cartao
-            if ( ValidarNumeroCartao(linha.Substring(8, 18)) == false)
+            if ( ValidarNumeroCartao(linha.Substring(8, 18).Trim()) == false)
             {
                 detalhe.retorno = "ERRO";
-                detalhe.mensagem = $"Número do cartao inválido}";
+                detalhe.mensagem += "Número do cartao inválido. ";
 
             }
+
+            detalhe.retorno = string.IsNullOrEmpty(detalhe.retorno) ? "OK" : detalhe.retorno;
+            detalhe.mensagem = string.IsNullOrEmpty(detalhe.mensagem) ? "OK" : detalhe.mensagem;
+
 
 
             return detalhe;
@@ -229,9 +279,7 @@ namespace HyperativaDesafio.Domain.Services
         {
             DetalheProcessamentoArquivo detalhe = new();
             detalhe.linha = 0;
-            detalhe.retorno = "OK";
-            detalhe.mensagem = "OK";
-
+            
             if (linhaHeader.Length != 51)
             {
                 detalhe.retorno = "ERRO";
@@ -239,26 +287,31 @@ namespace HyperativaDesafio.Domain.Services
             }
 
 
-
             if(linhaHeader.Substring(0, 29).Trim().ToUpper() != "DESAFIO-HYPERATIVA")
             {
                 detalhe.retorno = "ERRO";
-                detalhe.mensagem += $"[01-29] esperado [DESAFIO-HYPERATIVA] recebido {linhaHeader.Substring(0, 29)}";
+                detalhe.mensagem += $"[01-29] esperado [DESAFIO-HYPERATIVA] recebido {linhaHeader.Substring(0, 29)}. ";
             }
 
-            if ( DateOnly.TryParse(linhaHeader.Substring(29, 8), out _) == false)
+            bool dataValida = DateTime.TryParseExact(linhaHeader.Substring(29, 8), "yyyyMMdd", CultureInfo.InvariantCulture,
+                                         DateTimeStyles.None, out _);
+
+            if (dataValida == false)
             {
                 detalhe.retorno = "ERRO";
-                detalhe.mensagem += $"[30-37] esperado [yyyyMMdd] recebido {linhaHeader.Substring(29, 8)}";
+                detalhe.mensagem += $"[30-37] esperado [yyyyMMdd] recebido {linhaHeader.Substring(29, 8)}. ";
             }
 
 
             if (int.TryParse(linhaHeader.Substring(45, 6),out _) == false)
             {
                 detalhe.retorno = "ERRO";
-                detalhe.mensagem += $"[46-51] esperado [NNNNNN] recebido {linhaHeader.Substring(45, 6)}";
+                detalhe.mensagem += $"[46-51] esperado [NNNNNN] recebido {linhaHeader.Substring(45, 6)}. ";
             }
 
+
+            detalhe.retorno = string.IsNullOrEmpty(detalhe.retorno)  ? "OK" : detalhe.retorno;
+            detalhe.mensagem = string.IsNullOrEmpty(detalhe.mensagem) ? "OK" : detalhe.mensagem;
 
             return detalhe;
 
@@ -273,27 +326,28 @@ namespace HyperativaDesafio.Domain.Services
         {
             DetalheProcessamentoArquivo detalhe = new();
             detalhe.linha = numLinha;
-            detalhe.retorno = "OK";
-            detalhe.mensagem = "OK";
 
             if (linhaTrailer.Length != 51)
             {
                 detalhe.retorno = "ERRO";
-                detalhe.mensagem = $"Linha fora do layout, esperado 51 recebido {linhaTrailer.Length}.";
+                detalhe.mensagem = $"Linha fora do layout, esperado 51 recebido {linhaTrailer.Length}. ";
             }
 
 
-            if (linhaTrailer.Substring(0, 4).ToUpper() != "LOTE" || int.TryParse(linhaTrailer.Substring(4, 4), out _) == false)
+            if (linhaTrailer.Substring(0, 4).ToUpper() != "LOTE" || int.TryParse(linhaTrailer.Substring (4, 4), out _) == false)
             {
                 detalhe.retorno = "ERRO";
-                detalhe.mensagem += $"[01-08] Esperado LOTENNNN recebido {linhaTrailer.Substring(0, 8)}.";
+                detalhe.mensagem += $"[01-08] Esperado LOTENNNN recebido {linhaTrailer.Substring(0, 8)}. ";
             }
 
             if (int.TryParse(linhaTrailer.Substring(8, 14), out _) == false)
             {
                 detalhe.retorno = "ERRO";
-                detalhe.mensagem += $"[09-14] Esperado NNNNNN recebido {linhaTrailer.Substring(8, 6)}.";
+                detalhe.mensagem += $"[09-14] Esperado NNNNNN recebido {linhaTrailer.Substring(8, 6)}. ";
             }
+
+            detalhe.retorno = string.IsNullOrEmpty(detalhe.retorno) ? "OK" : detalhe.retorno;
+            detalhe.mensagem = string.IsNullOrEmpty(detalhe.mensagem) ? "OK" : detalhe.mensagem;
 
 
             return detalhe;

@@ -21,9 +21,9 @@ namespace HyperativaDesafio.Infra.Util
 
             try
             {
-                byte[] bytesFile = ConvertFileInByteArray(file);
-                File.WriteAllBytesAsync(fullPath, bytesFile);
 
+                byte[] bytesFile = ConvertFileInByteArray(file);
+                File.WriteAllBytes(fullPath, bytesFile);
 
             }
             catch (Exception)
@@ -38,7 +38,7 @@ namespace HyperativaDesafio.Infra.Util
         public static bool FileExist(string fullPath)
         {
 
-            return File.Exists(fullPath); 
+            return File.Exists(fullPath);
 
         }
 

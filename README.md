@@ -9,6 +9,7 @@
 - Dapper
 - SQLITE3
 - JWT 
+- Serilog
 - Swagger Open API
 - Postman
 
@@ -29,6 +30,11 @@ Certifique de que há o arquivo hyperativaDesafio.db dentro da pasta: Hyperativa
 Caso o arquivo hyperativaDesafio.db, abra o SQLITE3, crie uma base de dados com esse nome no diretório HyperativaDesafioTecnico\src\Cartao.API\DataBase.
 
 Acesse a pasta HyperativaDesafioTecnico\src\Cartao.API\DataBase\Scripts, lá há todos os scripts para realizar o setup no banco de dados.
+
+#### Log
+
+Utilizamos a biblioteca Serilog pra gravação de logs, os arquivos são salvos na pasta "\HyperativaDesafioTecnico\src\Cartao.API\log"
+
 
 #### Documentação interativa da API
 
